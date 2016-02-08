@@ -22,7 +22,7 @@ describe('promised-state', function() {
     });
     promised.update(({ name }) => {
       return { name: name + '?' };
-    })
+    });
     return promised
       .value()
       .then((state) => {
