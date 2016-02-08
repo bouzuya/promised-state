@@ -15,6 +15,22 @@ describe('promised-state', function() {
   });
 
   it('works', function() {
+    const state = { name: 'bouzuya' };
+    const promised = new PromisedState(state);
+    promised.update(({ name }) => {
+      return { name: name + '!' };
+    });
+    promised.update(({ name }) => {
+      return { name: name + '?' };
+    })
+    return promised
+      .value()
+      .then((state) => {
+        assert.deepEqual(state, { name: 'bouzuya!?' });
+      });
+  });
+
+  it('works', function() {
     const state = { name: 'aiueo' };
     const promised = new PromisedState(state);
     return Promise.all([
