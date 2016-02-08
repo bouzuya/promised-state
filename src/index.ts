@@ -26,12 +26,20 @@ class PromisedState<T> {
   }
 
   value(): Promise<T> {
-    this.state = this.state
+    return this.state
       .then(state => {
-        const update = this.updaterQueue.shift();
-        return update ? update(state) : state;
+        const updaters = this.updaterQueue;
+        this.updaterQueue = [];
+        return updaters
+          .reduce(
+            (promised, updater) => promised.then(updater),
+            Promise.resolve(state)
+          );
+      })
+      .then(state => {
+        this.state = Promise.resolve(state);
+        return state;
       });
-    return this.state;
   }
 }
 
