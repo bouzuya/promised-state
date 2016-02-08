@@ -2,6 +2,26 @@
 
 A state container
 
+## Usage
+
+```js
+import { PromisedState } from 'promised-state';
+
+const state = { name: 'bouzuya' };
+const promised = new PromisedState(state);
+promised.update(({ name }) => {
+  return { name: name + '!' };
+});
+promised.update(({ name }) => {
+  return { name: name + '?' };
+});
+promised
+  .value()
+  .then(({ name }) => {
+    console.log(name); // bouzuya!?
+  });
+```
+
 ## License
 
 [MIT](LICENSE)
